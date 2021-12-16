@@ -1,0 +1,115 @@
+.auth{
+    margin: 0 auto;
+    margin-top: 60px;
+    width: 358px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.auth__field{
+    display: flex;
+    flex-direction: column;
+}
+
+.auth__title{
+    margin: 0 0 50px 0;
+    color: white;
+    text-align: center;
+    font-family: 'Inter', Verdana, Tahoma, sans-serif;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 24px;
+    line-height: 29px;
+}
+
+.auth__input {
+    background-color: black;
+    color: white;
+    width: 358px;
+    margin: 0 auto;
+    border: 0;
+    box-sizing: border-box;
+    border-bottom: 1px solid #bcbcc4;
+    height: 27px;
+    font-family: 'Inter',Arial, Helvetica, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 17px;
+  }
+
+.auth__input:last-child {
+    margin-top: 30px;
+  } 
+
+  .auth__input:focus {
+    outline: none;
+  }
+
+.auth__button{
+    margin: 216px 0 0 0;
+    width: 358px;
+    height: 50px;
+    border-radius: 2px;
+    font-family: 'Inter', Verdana, Tahoma, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 22px;
+    background-repeat:no-repeat;
+    border: none;
+    transition: opacity 0.6 ease;
+    cursor: pointer;
+  }
+
+.auth__button:hover{
+    opacity: .85;
+  }
+
+.auth__sign-in{
+  display: flex;
+  justify-content: center;
+  margin: 29px 0 0 0;
+}
+
+.auth__sign-in-text{
+  margin: 0;
+  color: white;
+  font-family: 'Inter', Verdana, Tahoma, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.auth__signup-link{
+  color: white;
+  margin: 0;
+  padding-left: 5px;
+  font-family: 'Inter', Verdana, Tahoma, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  transition: opacity 0.6 ease;
+}
+
+.auth__signup-link:hover{
+  opacity: .6;
+}
+
+.signup__link{
+  color: white;
+  text-decoration: none;
+  font-family: 'Inter', Verdana, Tahoma, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  transition: opacity 0.6 ease;
+}
+
+.signup__link:hover{
+  opacity: 0.6;
+}
