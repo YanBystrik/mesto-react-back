@@ -13,6 +13,7 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from  "./ProtectedRoute";
 import InfoToolTips from "./InfoToolTips";
+import * as auth from '../auth.js';
 
 function App() {
     //Стейты состояния модалок, инфы о пользователе и карточек
@@ -22,7 +23,42 @@ function App() {
     const [selectedCard, setSelectedCard] = React.useState(null);
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
-    const [loggedIn, setLoggedIn] = React.useState(true);
+    const [loggedIn, setLoggedIn] = React.useState(false);
+    const navigate = useNavigate();
+    const [email, setEmail] = React.useState('');
+    const [isInfoToolTipsOpened, setIsInfoToolTipsOpened] = React.useState(false);
+
+    React.useEffect(() => {
+        handleTokenCheck()
+      },[])
+    
+    //Проверяем наличие токена
+      const handleTokenCheck = () => {
+        if (localStorage.getItem('jwt')) {
+          auth
+            .checkToken(localStorage.getItem('jwt'))
+            .then((res) => {
+              if (res) {
+                setEmail(res.data.email);
+                setLoggedIn(true)
+                navigate('/')
+              }
+            })
+        }
+      }
+    //Логаут из приложения, удаляем токен из хранилища
+      const handleLogout = (event) => {
+        event.preventDefault()
+        localStorage.removeItem('jwt')
+        setLoggedIn(false)
+        setEmail('')
+        navigate('/sign-in')
+      }
+    
+    //Флаг для понимания залогинен юзер или нет
+    const onLogin = () => {
+        setLoggedIn(true)
+    }
 
     //Хук запроса к АПИ за изначальными картинками
     React.useEffect( () => {
@@ -111,12 +147,13 @@ function App() {
         setIsProfilePopupOpened(false);
         setIsCreatePopupOpened(false);
         setIsAvatarPopupOpened(false);
+        setIsInfoToolTipsOpened(false);
         setSelectedCard(null);
     }
 
     //Закрытие модалки на ESC
     React.useEffect(() => {
-        if (isProfilePopupOpened || isCreatePopupOpened || isAvatarPopupOpened || selectedCard) {
+        if (isProfilePopupOpened || isCreatePopupOpened || isAvatarPopupOpened || selectedCard || isInfoToolTipsOpened) {
     
           function handleEsc(event) {
             if (event.key === 'Escape') {
@@ -130,7 +167,7 @@ function App() {
             document.removeEventListener("keydown", handleEsc)
           }
         }
-      }, [isProfilePopupOpened, isCreatePopupOpened, isAvatarPopupOpened, selectedCard])
+      }, [isProfilePopupOpened, isCreatePopupOpened, isAvatarPopupOpened, selectedCard, isInfoToolTipsOpened])
 
        //Закрытие модалки кликом на оверлей 
        function handlePopupClick(event) {
@@ -158,7 +195,7 @@ function App() {
                 <Route path="/"
                     element={
                         <ProtectedRoute loggedIn={loggedIn}>
-                            <Header />
+                            <Header email={email} handleLogout={handleLogout}/>
                             <Main 
                                 handleEditAvatarClick={ () =>
                                     setIsAvatarPopupOpened(true)
@@ -204,10 +241,12 @@ function App() {
                             />
                         </ProtectedRoute>
                     } />
-                <Route path='/sign-on' element={<Register />}/>
-                <Route path='/sign-in' element={<Login />} />
-                <Route path='/info' element={<InfoToolTips isOpened={true}/>} />
+                <Route path='/sign-on' element={
+                <Register setIsInfoToolTipsOpened={setIsInfoToolTipsOpened}/> 
+                } />
+                <Route path='/sign-in' element={<Login onLogin={onLogin} /> } />
             </Routes>
+            <InfoToolTips isOpened={isInfoToolTipsOpened} onClose={closeAllPopups} onPopupClick={handlePopupClick}/>
         </div>
     </currentUserContext.Provider>
   );

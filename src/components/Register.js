@@ -1,17 +1,15 @@
 import {React, useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-// import * as auth from '../auth.js';
+import * as auth from '../auth.js';
 import '../styles/auth.css';
 import logo from '../images/header_logo.svg';
 
-export default function Register() {
+export default function Register({setIsInfoToolTipsOpened}) {
   const [values, setValues] = useState({
-    username: '',
     email: '',
     password: '',
-    confirmPassword: '',
-    calGoal: '',
   })
+
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -24,16 +22,13 @@ export default function Register() {
   
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    if (values.password === values.confirmPassword) {
-    //   auth
-    //     .register(values.username, values.password, values.email)
-    //     .then(res => {
-    //       if (res.statusCode !== 400) {
-    //         navigate('/login')
-    //       }
-    //     })
-        }
+        auth.register(values.password, values.email)
+        .then(res => {
+          if (res.statusCode !== 400) {
+            setIsInfoToolTipsOpened(true)
+            navigate('/')
+          }
+        })
     }
 
     return (
@@ -45,12 +40,12 @@ export default function Register() {
             <div className="auth">
                 <p className='auth__title'>Регистрация</p>
                 <label className='auth__field'>
-                    <input placeholder='Email' className='auth__input' required id="username" name="username" type="text" value={values.username}
+                    <input placeholder='Email' className='auth__input' required id="email" name="email" type="email" value={values.email}
                         onChange={handleChange}/>
                     <input placeholder='Пароль' className='auth__input' required id="password" name="password" type="password" value={values.password}
                         onChange={handleChange}/>
                 </label>
-                <button className='auth__button' type='submit'>
+                <button className='auth__button' type='submit' onClick={handleSubmit}>
                     Зарегистрироваться
                 </button>
                 <div className="auth__sign-in">

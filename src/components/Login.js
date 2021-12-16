@@ -2,11 +2,11 @@ import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import '../styles/auth.css';
 import logo from '../images/header_logo.svg';
-// import * as auth from '../auth.js';
+import * as auth from '../auth.js';
 
 function Login({onLogin}) {
   const [values, setValues] = useState({
-    username: '',
+    email: '',
     password: '',
   })
   const navigate = useNavigate()
@@ -20,28 +20,28 @@ function Login({onLogin}) {
     }))
   }
 
-//   const handleSubmit = (e) => {
-    // e.preventDefault();
-    // if (!values.username || !values.password) {
-    //   return
-    // }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!values.email || !values.password) {
+      return
+    }
 
-    // auth
-    //   .authorize(values.username, values.password)
-    //   .then(res => {
-        // if (res.user && res.jwt) {
-        //   setValues({
-            // username: '',
-            // password: '',
-        //   })
+    auth
+      .authorize(values.password, values.email)
+      .then(res => {
+        if (res.token) {
+          setValues({
+            email: '',
+            password: '',
+          })
 
-        //   localStorage.setItem('jwt', res.jwt)
-        //   onLogin()
-        //   navigate('/diary')
-        // }
-    //   })
-    //   .catch(err => console.log(err))
-//   }
+          localStorage.setItem('jwt', res.token)
+          onLogin()
+          navigate('/')
+        }
+      })
+      .catch(err => console.log(err))
+  }
 
 
   return (
@@ -53,12 +53,12 @@ function Login({onLogin}) {
         <div className="auth">
             <p className='auth__title'>Вход</p>
             <label className='auth__field'>
-                <input placeholder='Email' className='auth__input' required id="username" name="username" type="text" value={values.username}
+                <input placeholder='Email' className='auth__input' required id="email" name="email" type="email" value={values.email}
                     onChange={handleChange}/>
                 <input placeholder='Пароль' className='auth__input' required id="password" name="password" type="password" value={values.password}
                     onChange={handleChange}/>
             </label>
-            <button className='auth__button' type='submit'>
+            <button className='auth__button' type='submit' onClick={handleSubmit}>
                 Войти
             </button>
         </div>
