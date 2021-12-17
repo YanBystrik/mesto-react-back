@@ -4,7 +4,7 @@ import * as auth from '../auth.js';
 import '../styles/auth.css';
 import logo from '../images/header_logo.svg';
 
-export default function Register({setIsInfoToolTipsOpened}) {
+export default function Register({setIsInfoToolTipsOpened, setInfoStatus}) {
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -24,10 +24,17 @@ export default function Register({setIsInfoToolTipsOpened}) {
     e.preventDefault();
         auth.register(values.password, values.email)
         .then(res => {
-          if (res.statusCode !== 400) {
-            setIsInfoToolTipsOpened(true)
-            navigate('/')
+          if (res.data){
+            setInfoStatus(true);
+            setIsInfoToolTipsOpened(true);
+            navigate('/');
+          } else {
+            setInfoStatus(false);
+            setIsInfoToolTipsOpened(true);
           }
+        })
+        .catch(err => {
+          console.error(err);
         })
     }
 

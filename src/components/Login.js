@@ -4,7 +4,7 @@ import '../styles/auth.css';
 import logo from '../images/header_logo.svg';
 import * as auth from '../auth.js';
 
-function Login({onLogin}) {
+function Login({onLogin, setEmail}) {
   const [values, setValues] = useState({
     email: '',
     password: '',
@@ -30,11 +30,11 @@ function Login({onLogin}) {
       .authorize(values.password, values.email)
       .then(res => {
         if (res.token) {
+          setEmail(values.email)
           setValues({
             email: '',
             password: '',
           })
-
           localStorage.setItem('jwt', res.token)
           onLogin()
           navigate('/')

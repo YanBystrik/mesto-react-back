@@ -27,6 +27,7 @@ function App() {
     const navigate = useNavigate();
     const [email, setEmail] = React.useState('');
     const [isInfoToolTipsOpened, setIsInfoToolTipsOpened] = React.useState(false);
+    const [infoStatus, setInfoStatus] = React.useState(null);
 
     React.useEffect(() => {
         handleTokenCheck()
@@ -39,9 +40,9 @@ function App() {
             .checkToken(localStorage.getItem('jwt'))
             .then((res) => {
               if (res) {
-                setEmail(res.data.email);
                 setLoggedIn(true)
                 navigate('/')
+                setEmail(res.data.email)
               }
             })
         }
@@ -242,11 +243,11 @@ function App() {
                         </ProtectedRoute>
                     } />
                 <Route path='/sign-on' element={
-                <Register setIsInfoToolTipsOpened={setIsInfoToolTipsOpened}/> 
+                <Register setIsInfoToolTipsOpened={setIsInfoToolTipsOpened} setInfoStatus={setInfoStatus}/> 
                 } />
-                <Route path='/sign-in' element={<Login onLogin={onLogin} /> } />
+                <Route path='/sign-in' element={<Login onLogin={onLogin} setEmail={setEmail} /> } />
             </Routes>
-            <InfoToolTips isOpened={isInfoToolTipsOpened} onClose={closeAllPopups} onPopupClick={handlePopupClick}/>
+            <InfoToolTips info={infoStatus} isOpened={isInfoToolTipsOpened} onClose={closeAllPopups} onPopupClick={handlePopupClick}/>
         </div>
     </currentUserContext.Provider>
   );
