@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import '../styles/auth.css';
 import logo from '../images/header_logo.svg';
-import * as auth from '../auth.js';
+import * as auth from '../utils/auth.js';
 
 function Login({onLogin, setEmail}) {
   const [values, setValues] = useState({
@@ -52,15 +52,17 @@ function Login({onLogin, setEmail}) {
         </header>
         <div className="auth">
             <p className='auth__title'>Вход</p>
-            <label className='auth__field'>
-                <input placeholder='Email' className='auth__input' required id="email" name="email" type="email" value={values.email}
-                    onChange={handleChange}/>
-                <input placeholder='Пароль' className='auth__input' required id="password" name="password" type="password" value={values.password}
-                    onChange={handleChange}/>
-            </label>
-            <button className='auth__button' type='submit' onClick={handleSubmit}>
+              <form onSubmit={handleSubmit}>
+                <label className='auth__field'>
+                    <input placeholder='Email' className='auth__input' required id="email" name="email" type="email" value={values.email}
+                        onChange={handleChange}/>
+                    <input placeholder='Пароль' className='auth__input' required id="password" name="password" type="password" value={values.password}
+                        onChange={handleChange}/>
+                </label>
+                <button className='auth__button' type='submit'>
                 Войти
-            </button>
+                </button>
+              </form>
         </div>
     </>
   )

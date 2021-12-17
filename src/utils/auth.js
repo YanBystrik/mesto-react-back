@@ -11,14 +11,16 @@ export const register = (password, email) => {
         email: email
     })
   })
-  .then((response) => {
-    return response.json();
+  .then((res) => {
+    if(res.ok){
+      return res.json();
+    } else {
+      throw new Error(`Response is not OK with code ${res.status}`);
+    }
   })
   .then((res) => {
-    console.log(res);
     return res;
   })
-  .catch((err) => console.log(err));
 };
 
 export const authorize = (password, email) => {
@@ -32,8 +34,13 @@ export const authorize = (password, email) => {
       email: email
     })
   })
-  .then((response => response.json()))
-  .catch(err => console.log(err))
+  .then((res) => {
+    if(res.ok){
+      return res.json();
+    } else {
+      throw new Error(`Response is not OK with code ${res.status}`);
+    }
+  })
 };
 
 export const checkToken = (token) => {
@@ -44,6 +51,12 @@ export const checkToken = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-  .then(res => res.json())
+  .then((res) => {
+    if(res.ok){
+      return res.json();
+    } else {
+      throw new Error(`Response is not OK with code ${res.status}`);
+    }
+  })
   .then(data => data)
 }

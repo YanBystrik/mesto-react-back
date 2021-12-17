@@ -13,7 +13,7 @@ import Login from "./Login";
 import Register from "./Register";
 import ProtectedRoute from  "./ProtectedRoute";
 import InfoToolTips from "./InfoToolTips";
-import * as auth from '../auth.js';
+import * as auth from '../utils/auth.js';
 
 function App() {
     //Стейты состояния модалок, инфы о пользователе и карточек
@@ -45,6 +45,7 @@ function App() {
                 setEmail(res.data.email)
               }
             })
+            .catch(err => console.error(err));
         }
       }
     //Логаут из приложения, удаляем токен из хранилища

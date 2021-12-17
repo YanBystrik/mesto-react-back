@@ -34,14 +34,14 @@ function Main({
         </section>
         <section className="elements">
             {
-                cards.map(card => 
+                cards.map(card => (
                 <Card 
                     key={card._id} 
                     card={card} 
                     onCardClick={onCardClick} 
                     onCardLike={onCardLike} 
                     onCardDelete={onCardDelete} 
-                />)
+                />))
             }
         </section>
     </>  
