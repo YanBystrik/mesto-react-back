@@ -1,5 +1,13 @@
 export const BASE_URL = 'https://auth.nomoreparties.co';
 
+const checkResponse = (res) => {
+  if(res.ok){
+    return res.json();
+  } else {
+    throw new Error(`Response is not OK with code ${res.status}`);
+  }
+}
+
 export const register = (password, email) => {
   return fetch(`${BASE_URL}/signup`, {
     method: 'POST',
@@ -11,13 +19,7 @@ export const register = (password, email) => {
         email: email
     })
   })
-  .then((res) => {
-    if(res.ok){
-      return res.json();
-    } else {
-      throw new Error(`Response is not OK with code ${res.status}`);
-    }
-  })
+  .then(checkResponse)
   .then((res) => {
     return res;
   })
@@ -34,13 +36,7 @@ export const authorize = (password, email) => {
       email: email
     })
   })
-  .then((res) => {
-    if(res.ok){
-      return res.json();
-    } else {
-      throw new Error(`Response is not OK with code ${res.status}`);
-    }
-  })
+  .then(checkResponse)
 };
 
 export const checkToken = (token) => {
@@ -51,12 +47,6 @@ export const checkToken = (token) => {
       'Authorization': `Bearer ${token}`,
     }
   })
-  .then((res) => {
-    if(res.ok){
-      return res.json();
-    } else {
-      throw new Error(`Response is not OK with code ${res.status}`);
-    }
-  })
+  .then(checkResponse)
   .then(data => data)
 }
